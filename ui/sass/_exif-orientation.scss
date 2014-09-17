@@ -1,0 +1,36 @@
+.exif-orientation-0 {
+  transform: matrix(1,0,0,1,0,0);
+}
+.exif-orientation-1 {
+  transform: matrix(1,0,0,1,0,0);
+}
+.exif-orientation-2 {
+  transform: matrix(-1,0,0,1,0,0);
+}
+.exif-orientation-3 {
+  transform: matrix(-1,0,0,-1,0,0);
+}
+.exif-orientation-4 {
+  transform: matrix(1,0,0,-1,0,0);
+}
+.exif-orientation-5 {
+  transform: matrix(0,-1,1,0,0,0);
+}
+.exif-orientation-6 {
+  transform: matrix(0,-1,1,0,0,0);
+}
+.exif-orientation-7 {
+  transform: matrix(0,1,-1,0,0,0);
+}
+.exif-orientation-8 {
+  transform: matrix(0,1,-1,0,0,0);
+}
+
+.exif-orientation-fix {
+
+}
+
+.exif-orientation-no-fix {
+  max-width: 100%;
+  max-height: 100%;
+}

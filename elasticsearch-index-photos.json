@@ -1,0 +1,74 @@
+{
+  "template": "opfs",
+  "mappings": {
+    "_default_":{
+      "properties":{
+        "Type": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "Mime": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "Hash": {
+          "type": "string",
+          "index": "no"
+        },
+        "Name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "Added": {
+          "type": "date",
+          "index": "not_analyzed"
+        },
+        "Created": {
+          "type": "date",
+          "index": "not_analyzed"
+        },
+        "Deleted": {
+          "type": "date",
+          "index": "not_analyzed"
+        },
+        "Location" : {
+          "type" : "geo_point",
+          "fielddata" : {
+              "format" : "compressed",
+              "precision" : "3m"
+          }
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Tags": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "Meta.Slug": {
+          "type":"string",
+          "index": "not_analyzed"
+        },
+        "Meta.Size": {
+          "type": "long"
+        },
+        "Meta.Width": {
+          "type":"integer"
+        },
+        "Meta.Height": {
+          "type": "integer"
+        },
+        "Meta.Orientation": {
+          "type": "integer"
+        },
+        "Meta.Device": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "Meta.Duration": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

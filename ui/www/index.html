@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OPFS</title>
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <!-- <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/css/photos.css"> -->
+    <link rel="stylesheet" type="text/css" href="/css/opfs.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+      <!-- same as IndeterminateLoading component -->
+      <div class="jumbo">
+        <span class="fa-stack">
+          <i class="fa fa-circle-o-notch fa-spin fa-stack-2x fa-fw"></i>
+          <i class="fa fa-camera fa-stack-1x fa-fw"></i>
+        </span>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/opfs.js"></script>
+    <script>
+    (function(){
+      var init = require("init"),
+          app = document.getElementById("app"),
+          data = {
+            state:{ url:window.location.href },
+            stores:{ items:{}, selection:{} }
+          };
+      window._app = init(data, {element: app});
+    })();
+    </script>
+</body>
+</html>

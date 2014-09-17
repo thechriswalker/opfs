@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+var browserify = require("browserify"),
+    watchify = require("watchify"),
+    uglifyify = require("uglifyify"),
+    reactify = require("reactify"),
+    _ = require("lodash"),
+    fs = require("fs");
+
+var DEBUG = !!~process.argv.indexOf("--debug");
+var WATCH = !!~process.argv.indexOf("--watch")
+
+
+var outIndex = process.argv.indexOf("--output")+1;
+var outputFile = "www/js/opfs.js";
+if(outIndex > 2 && process.argv[outIndex]){
+  var file = process.argv[outIndex];
+  if(file === "-"){
+    outputFile = "/dev/stdout";
+  }else{
+    outputFile = file;
+  }
+}
+
+var options = {
+  extensions: [".jsx"],
+  debug: DEBUG,
+  basedir: __dirname+"/src/lib"
+  //builtins: ["events","path"]
+};
+if(WATCH){
+  options = _.extend({ cache: {}, packageCache: {}, fullPaths: false }, options);
+}
+
+var compiler = browserify(options);
+if(WATCH){
+  compiler = watchify(compiler);
+}
+
+compiler
+  .require("./bootstrap", { expose: "init"})
+  .transform({global: true}, reactify);
+
+if(!DEBUG){
+  compiler.transform({global: true}, uglifyify);
+}
+
+function build(){
+  compiler.bundle()
+    .pipe(fs.createWriteStream(outputFile));
+}
+
+if(WATCH){
+  compiler.on("update", build);
+  compiler.on("log", console.log.bind(console));
+}
+build();

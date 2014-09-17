@@ -1,0 +1,26 @@
+{
+  "name": "photos-ui",
+  "version": "0.0.0",
+  "description": "The UI layer of my photos app",
+  "scripts": {
+    "clean": "npm run clean-modules && npm run clean-files",
+    "clean-modules": "find node_modules/ ! -type l -depth 1 -print0 | xargs -0 rm -rf",
+    "clean-files": "rm ../www/js/bundle.js"
+  },
+  "author": "Chris Walker <chris@thechriswalker.net>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "latest",
+    "react": "latest",
+    "react-simple-router": "latest",
+    "node-jsx": "latest",
+    "es6-promise": "latest",
+    "fast-url-parser": "latest"
+  },
+  "devDependencies": {
+    "watchify": "^1.0.2",
+    "reactify": "latest",
+    "browserify": "latest",
+    "uglifyify": "latest"
+  }
+}

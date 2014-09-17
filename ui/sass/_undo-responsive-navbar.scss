@@ -1,0 +1,46 @@
+/* Undo responsiveness on navbar. */
+/* from: http://getbootstrap.com/examples/non-responsive/non-responsive.css */
+
+/* Always float the navbar header */
+.navbar-header {
+  float: left;
+}
+.container-fluid > .navbar-header {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Undo the collapsing navbar */
+.navbar-collapse {
+  display: block !important;
+  height: auto !important;
+  padding-bottom: 0;
+  overflow: visible !important;
+}
+.navbar-toggle {
+  display: none;
+}
+.navbar-collapse {
+  border-top: 0;
+}
+
+.navbar-brand {
+  margin-left: -15px;
+}
+
+/* Always apply the floated nav */
+.navbar-nav {
+  float: left;
+  margin: 0;
+}
+.navbar-nav > li {
+  float: left;
+}
+.navbar-nav > li > a {
+  padding: 15px;
+}
+
+/* Redeclare since we override the float above */
+.navbar-nav.navbar-right {
+  float: right;
+}

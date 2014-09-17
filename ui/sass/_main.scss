@@ -1,0 +1,43 @@
+body, html {
+  min-width: 480px;
+}
+.app-container {
+  padding-top: 60px;
+}
+.inset {
+    background-color: #666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255,255,255,0.9) 0px 3px 3px;
+}
+.jumbo {
+  font-size: 64px;
+  text-align: center;
+  margin: 32px;
+}
+.jumbo-subtext {
+  margin: 32px;
+  text-align:center;
+  font-size: 40px;
+}
+.titlebar {
+  position:fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateZ(0);
+  min-width: 480px;
+}
+.titlebar div.navbar-brand {
+  padding-left:0;
+}
+.breadcrumbs {
+  font-weight: 100;
+}
+
+.main-logo {
+  position:relative;
+  left:-9px;
+}

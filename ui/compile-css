@@ -1,0 +1,9 @@
+#!/bin/bash
+SOURCEFILE=sass/opfs.scss
+DESTFILE=www/css/opfs.css
+if [ "${1}" == "--watch" ]
+then
+  sass --require "bootstrap-sass" --scss --watch $(dirname ${SOURCEFILE}):$(dirname ${DESTFILE})
+else
+  sass --require "bootstrap-sass" --scss "${SOURCEFILE}" "${DESTFILE}"
+fi

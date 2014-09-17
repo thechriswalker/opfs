@@ -1,0 +1,12 @@
+{
+    "node": true,
+    "indent": 2,
+    "curly": true,
+    "camelcase": true,
+    "quotmark": "double",
+    "unused": true,
+    "maxparams": 4,
+    "undef": true,
+    "smarttabs": true,
+    "newcap": false
+}
