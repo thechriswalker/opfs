@@ -1,12 +1,16 @@
 package video
 
 import (
+	"bytes"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"image/jpeg"
 	"io"
 	"log"
 	"math"
+	"os"
+	"os/exec"
 	"regexp"
 	"strconv"
 	"time"
@@ -14,6 +18,9 @@ import (
 	//our packages
 	"code.7r.pm/chris/opfs/core"
 	"code.7r.pm/chris/opfs/types/photo" //for the Orientation
+
+	//vendor
+	"github.com/disintegration/imaging"
 )
 
 func init() {
@@ -366,4 +373,66 @@ func parseISO6709(b []byte) (*core.LatLon, error) {
 	ll.Lat, err = strconv.ParseFloat(string(lat), 64)
 	ll.Lon, err = strconv.ParseFloat(string(lon), 64)
 	return ll, err
+}
+
+//Creating a thumbnail from a mp4 is complex so I cheat and use FFMPEG to create a JPEG...
+//JPEG is straightforwards
+// but ffmpeg probably can't make a thumbnail from a piped reader, so this only works if our
+//ReadSeeker is actually an *os.File
+func (m *Mp4Video) Thumbnail(in io.ReadSeeker, longSide int) (io.ReadSeeker, string, error) {
+	var cmd *exec.Cmd
+	if file, ok := in.(*os.File); ok {
+		//this is the best way as ffmpeg can seek.
+		cmd = exec.Command("ffmpeg", "-i", "/dev/fd/3", "-vframes", "1", "-f", "image2", "-")
+		cmd.ExtraFiles = []*os.File{file}
+	} else {
+		log.Println("mp4thumb: using stdin (will probably fail...)")
+		cmd = exec.Command("ffmpeg", "-i", "-", "-vframes", "1", "-f", "image2", "-")
+		cmd.Stdin = in
+	}
+	stdout, err := cmd.StdoutPipe()
+	//cmd.Stderr = os.Stderr
+	if err != nil {
+		return nil, "", err
+	}
+	if err := cmd.Start(); err != nil {
+		return nil, "", err
+	}
+	img, err := jpeg.Decode(stdout)
+	if err != nil {
+		return nil, "", err
+	}
+	if err := cmd.Wait(); err != nil {
+		return nil, "", err
+	}
+	//now we should have a jpeg to resize!
+	var w, h int
+	aspect := float64(m.Width) / float64(m.Height)
+	if m.Width > m.Height {
+		w, h = longSide, int(float64(longSide)/aspect)
+	} else {
+		w, h = int(float64(longSide)*aspect), longSide
+	}
+	switch m.Orientation {
+	case photo.OrientedNormal90, photo.OrientedNormal270:
+		//flip then rotate 270
+		w, h = h, w
+	}
+	//now create thumbnail.
+	img = imaging.Thumbnail(img, w, h, imaging.Box)
+	//rotate if needed.
+	switch m.Orientation {
+	case photo.OrientedNormal90:
+		//rotate 90 (270 anticlockwise)
+		img = imaging.Rotate270(img)
+	case photo.OrientedNormal180:
+		//rotate 180
+		img = imaging.Rotate180(img)
+	case photo.OrientedNormal270:
+		//rotate 270 (90 anti-clockwise)
+		img = imaging.Rotate90(img)
+	}
+	var wr bytes.Buffer
+	err = jpeg.Encode(&wr, img, nil)
+	return bytes.NewReader(wr.Bytes()), "image/jpeg", err
 }
