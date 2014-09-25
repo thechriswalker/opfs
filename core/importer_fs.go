@@ -19,13 +19,13 @@ func init() {
 	RegisterImporter("fs-import", func(conf *ServiceConfig, s *Service) (Importer, error) {
 		ipath, ok := conf.Conf["watch"]
 		if !ok {
-			ipath = ExpandHome(fsimpDEFAULT_WATCH_DIR)
+			ipath = fsimpDEFAULT_WATCH_DIR
 		}
 		fs_import, ok := ipath.(string)
 		if !ok {
 			return nil, fmt.Errorf("FS-Importer Config `watch` must be a string value: got `%v` (%T)", ipath, ipath)
 		}
-		imp := &FileSystemImporter{WatchDir: fs_import, service: s, pendingImports: map[string]func(){}, work: make(chan *fsImportJob)}
+		imp := &FileSystemImporter{WatchDir: ExpandHome(fs_import), service: s, pendingImports: map[string]func(){}, work: make(chan *fsImportJob)}
 
 		//fire up the workers.
 		imp.workers = make([]*fsImportWorker, runtime.GOMAXPROCS(-1))
@@ -132,6 +132,7 @@ func (fs *FileSystemImporter) Watch(opts *ImportOptions, shutdown chan struct{})
 					return
 				}
 				var wg sync.WaitGroup
+				log.Println("Watching Import Directory:", dir)
 				for {
 					select {
 					case ev := <-watcher.Events:
@@ -227,6 +228,8 @@ func (fs *FileSystemImporter) importSingle(scan *ScanResult, opts *ImportOptions
 		if err != nil {
 			return err
 		}
+		//generate thumbnail now! saves load time later...
+		getItemThumbnail(fs.service, item, THUMBNAIL_LARGE)
 	}
 	//(re)index
 	if err = fs.service.indexer.Index(item); err != nil {
