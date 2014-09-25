@@ -57,6 +57,8 @@ module.exports = {
           itemStore.put(r.Hash, r);
           update.items.push(r.Hash);
         });
+
+        hub.set(update);
       }).catch(function(err){
         //error at this point... maybe we had better put this elsewhere in the state, so we don't have to zap everything...
         console.error(err);
@@ -71,9 +73,9 @@ module.exports = {
 };
 
 function reset(hub){
+  hub.getStore("items").reset();
   hub.set({
     paging:{},
     items:null
   });
-  hub.getStore("items").reset();
 }

@@ -14,6 +14,8 @@ module.exports = React.createClass({
       return null;
     }
     //we have one! get the id's of prev and next.
+    //We might want to slideshow a specific selection of images, so we
+    //might need an overload for "selection" vs "loaded".
     var itemId = matches[1],
         set = hub.get("items"),
         itemIdx = set.indexOf(itemId),

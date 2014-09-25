@@ -33,7 +33,10 @@ module.exports = React.createClass({
             <a href={"#slideshow/"+hash} className={"photo-grid-item"+(selected ? " photo-grid-item-selected":"")}>
               <div className="thumb-wrap">
                 <img title={details} className="img-rounded thumb" src={apiUrls.thumbSmall(hash)} />
-                <div className="thumb-placeholder"><i className={"fa thumb-icon-"+item.Type} /></div>
+                <div className="thumb-placeholder"><i className={"fa opfs-icon-"+item.Type} /></div>
+                {item.Type === "Video" &&
+                  <div className="thumb-placeholder video-play-icon"><i className="fa fa-play-circle" /></div>
+                }
               </div>
             </a>
           </div>;

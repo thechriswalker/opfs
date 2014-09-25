@@ -19,15 +19,24 @@ var ItemView = React.createClass({
     var itemComponent;
     if(this.props.item.Type === "Video"){
       //we need a video tag and the raw url.
-      // poster={apiUrl.thumbLarge(this.props.item.Hash)}
-      itemComponent = <video controls src={apiUrl.raw(this.props.item.Hash)} className="slideshow-itemview-item" />;
+
+      //might work better without the poster (thumb is smaller than video and video is dynamically resized...)
+      //poster={apiUrl.thumbLarge(this.props.item.Hash)}
+      //
+      itemComponent = <video autoPlay controls src={apiUrl.raw(this.props.item.Hash)} className="slideshow-itemview-item" />;
     }else{
-      itemComponent = <img src={apiUrl.thumbLarge(this.props.item.Hash)} className="slideshow-itemview-item" />;
+      itemComponent = <img key={this.props.item.Hash} src={apiUrl.raw(this.props.item.Hash)} className="slideshow-itemview-item" />;
     }
 
     return <div className="slideshow-itemview">
       <div className="slideshow-itemview-wrap">
         {itemComponent}
+        <div className="slideshow-itemview-loader">
+          <span className="fa-stack">
+            <i className="fa fa-circle-o-notch fa-spin fa-stack-2x fa-fw"></i>
+            <i className={"fa fa-stack-1x fa-fw opfs-icon-"+this.props.item.Type}></i>
+          </span>
+        </div>
       </div>
     </div>;
   }

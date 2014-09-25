@@ -19,7 +19,7 @@ module.exports = React.createClass({
     return <nav className="titlebar navbar navbar-default">
       <div className="container-fluid">
         <div className="navbar-header">
-          <a className="navbar-brand" href="/"><i className="fa fa-lg fa-camera main-logo"></i></a>
+          <a className="navbar-brand" href="#"><i className="fa fa-lg fa-camera main-logo"></i></a>
           <div className="navbar-brand">{"opfs://"}<span className="breadcrumbs">{pageName}</span></div>
         </div>
         <ul className="nav navbar-nav navbar-right">
